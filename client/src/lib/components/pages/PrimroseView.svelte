@@ -26,7 +26,7 @@
     })
 </script>
 <div class="relative">
-    <div class="fixed transition ease-in-out duration-400 w-screen z-30 hidden md:block" id="header">
+    <div class="fixed transition ease-in-out duration-400 w-screen z-30" id="header">
         <div on:click={() => { document.referrer ? window.location = document.referrer : history.back() }} class="flex hover:cursor-pointer flex-row items-center px-6 py-4 hover:opacity-80 duration-400 transition ease-in-out">
             <Icon src={ChevronLeft} size="24"/>
             <p class="playfair uppercase font-bold text-lg">{import.meta.env.VITE_APP_NAME}</p>

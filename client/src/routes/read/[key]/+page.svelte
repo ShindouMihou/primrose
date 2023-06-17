@@ -87,7 +87,7 @@
 {#if !$post.isLoading}
     {#if $post.error == null}
         <div class="relative">
-            <div class="fixed transition ease-in-out duration-400 w-screen z-30 hidden md:block" id="header">
+            <div class="fixed transition ease-in-out duration-400 w-screen z-30" id="header">
                 <a href="/" class="flex flex-row items-center px-6 py-4 hover:opacity-80 duration-400 transition ease-in-out">
                     <Icon src={ChevronLeft} size="24"/>
                     <p class="playfair uppercase font-bold text-lg">{import.meta.env.VITE_APP_NAME}</p>
