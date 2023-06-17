@@ -98,7 +98,7 @@
                                     <div class="flex flex-row-reverse md:flex-row w-full gap-4">
                                         <img src="{post.image}" class="w-16 h-16 bg-gray-200 object-cover"/>
                                         <div class="max-w-lg w-full">
-                                            <h2 class="font-bold text-3xl max-w-lg playfair">{post.title}</h2>
+                                            <h2 class="font-bold text-2xl md:text-3xl max-w-lg break-all playfair">{post.title}</h2>
                                             <p class="font-light text-zinc-200">{post.published ? "Published" : "Draft"} at {Dates.toDateString(new Date(post.created_at))}</p>
                                         </div>
                                     </div>
