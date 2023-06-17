@@ -3,7 +3,7 @@
         <div class="absolute h-screen w-full bg-cover bg-center bg-gray-400 bg-no-repeat"></div>
         <div class="relative drop-shadow shadow-white transition ease-in-out duration-300 bg-black bg-opacity-30 h-full overflow-hidden">
             <div class="relative md:my-64">
-                <h2 class="text-[16rem] leading-none md:text-[32rem] font-bold break-all">Loading</h2>
+                <h2 class="leading-none text-[32rem] 2xl:text-[52rem] font-bold break-all">Loading</h2>
             </div>
         </div>
     </div>
