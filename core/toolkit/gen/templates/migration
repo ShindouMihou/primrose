@@ -1,0 +1,17 @@
+package migrations
+
+import (
+	"primrose/toolkit/mimi"
+	"go.mongodb.org/mongo-driver/mongo"
+)
+
+var {MigrationName} = mimi.AddMigration(mimi.Migration{
+	Key:        "{MigrationName$}",
+	Collection: "{CollectionName}",
+	MigrateUp: func(ctx mongo.SessionContext, coll *mongo.Collection) error {
+		return nil
+	},
+	MigrateDown: func(ctx mongo.SessionContext, coll *mongo.Collection) error {
+		return nil
+	},
+})

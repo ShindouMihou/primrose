@@ -1,0 +1,98 @@
+/* Write your global styles here, in PostCSS syntax */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.mkdown h1, .mkdown h2, .mkdown h3 {
+    font-family: 'Playfair Display', serif;
+}
+
+@layer base {
+    .mkdown a:not(.flora-anchor) {
+        @apply text-blue-700 underline hover:opacity-90 transition-[250ms] hover:underline underline-offset-4;
+    }
+
+    .flora-anchor {
+        @apply hover:opacity-90 transition-[250ms] hover:underline underline-offset-4 w-fit;
+    }
+
+    .mkdown button {
+        @apply hover:opacity-90 transition-[250ms];
+    }
+
+    .mkdown pre {
+        @apply bg-black dark:bg-neutral-900 p-3 my-4 resize-none overflow-x-scroll text-white;
+    }
+
+    .mkdown code {
+        @apply bg-black dark:bg-neutral-900 text-white resize-none overflow-x-scroll;
+    }
+
+    .mkdown p > code {
+        @apply p-0.5;
+    }
+
+    .mkdown p {
+        @apply leading-normal mb-4 text-2xl;
+    }
+
+    .mkdown a, .mkdown li, .mkdown p, .mkdown code {
+        @apply text-base break-words;
+    }
+
+    .mkdown ol {
+        @apply list-decimal;
+    }
+
+    .mkdown ul {
+        @apply list-disc;
+    }
+
+    .mkdown ol, .mkdown ul {
+        @apply px-12 leading-normal my-2;
+    }
+
+    .mkdown h6 {
+        @apply text-[.85rem] text-gray-400;
+    }
+
+    .mkdown h5 {
+        @apply text-sm;
+    }
+
+    .mkdown h4 {
+        @apply text-base;
+    }
+
+    .mkdown h3 {
+        @apply text-xl;
+    }
+
+    .mkdown h2, .mkdown h1 {
+        @apply text-2xl;
+    }
+
+    .mkdown h1, .mkdown h2 {
+        @apply border-b-neutral-700;
+    }
+
+    .mkdown h1, .mkdown h2, .mkdown h3, .mkdown h4, .mkdown h5, .mkdown h6 {
+        @apply font-bold mt-6;
+    }
+
+    .mkdown blockquote {
+        @apply p-6 px-12 border-l-neutral-600 border-l-8 bg-neutral-800 my-4;
+    }
+
+    .mkdown blockquote p {
+        @apply mb-0 text-white;
+    }
+
+    .mkdown img {
+        @apply rounded shadow align-middle m-auto;
+    }
+
+    .mkdown hr {
+        @apply h-1 p-0 my-6 border-0 bg-gray-600;
+    }
+}

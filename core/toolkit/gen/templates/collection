@@ -1,0 +1,13 @@
+package collections
+
+import (
+	"primrose/toolkit/mimi"
+	"go.mongodb.org/mongo-driver/mongo"
+)
+
+var {CollectionName} = mimi.AddCollection(mimi.Collection{
+	Key: "{CollectionName$}",
+	Action: func(database *mongo.Database) error {
+		return nil
+	},
+})

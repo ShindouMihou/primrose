@@ -1,0 +1,14 @@
+package indexes
+
+import (
+	"primrose/toolkit/mimi"
+	"go.mongodb.org/mongo-driver/mongo"
+)
+
+var {IndexName} = mimi.AddIndex(mimi.Index{
+	Key:        "{IndexName$}",
+	Collection: "{CollectionName}",
+	Action: func(coll *mongo.Collection) error {
+		return nil
+	},
+})
