@@ -20,10 +20,13 @@
     import EditorCheckbox from "$lib/components/pages/editor/inputs/EditorCheckbox.svelte";
     import SavingAlert from "$lib/components/pages/editor/alerts/SavingAlert.svelte";
     import SimpleErrorAlert from "$lib/components/alerts/SimpleErrorAlert.svelte";
+    import {AUTHENTICATED_RETRY} from "../../requests/retries/retries";
 
     export let key: string | null;
 
-    const self = createQuery(['self'], () => fetchSelf($token))
+    const self = createQuery(['self'], () => fetchSelf($token), {
+        retry: AUTHENTICATED_RETRY
+    })
     onMount(() => {
         function logout() {
             token.set('')
@@ -85,7 +88,9 @@
     let image = ""
     let published = false
 
-    const post = createQuery(['post', key], () => fetchPostForEditor(key, $token))
+    const post = createQuery(['post', key], () => fetchPostForEditor(key, $token), {
+        retry: AUTHENTICATED_RETRY
+    })
 
     const mutator = createMutation(['post', key], (newPost: Post) => savePost($token, newPost), {
         onSuccess: data => {
@@ -94,7 +99,8 @@
             }
             $post.refetch()
         },
-        onError: () => lock = false
+        onError: () => lock = false,
+        retry: AUTHENTICATED_RETRY
     })
 
     post.subscribe((post) => {

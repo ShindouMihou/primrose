@@ -17,13 +17,18 @@
     import {fetchSelf} from "$lib/requests/user";
     import ErrorView from "$lib/components/pages/ErrorView.svelte";
     import {onMount} from "svelte";
+    import {AUTHENTICATED_RETRY} from "$lib/requests/retries/retries";
 
-    const self = createQuery(['self'], () => fetchSelf($token))
+    function logout() {
+        token.set('')
+        setTimeout(() => window.location.replace('/login'), 250)
+    }
+
+    const self = createQuery(['self'], () => fetchSelf($token), {
+        retry: AUTHENTICATED_RETRY
+    })
+
     onMount(() => {
-        function logout() {
-            token.set('')
-            setTimeout(() => window.location.replace('/login'), 250)
-        }
         $: if ($self.error === UNAUTHENTICATED || ($self.isSuccess && $self.data == null)) {
             logout()
             return
@@ -33,7 +38,9 @@
         }
     })
 
-    $: posts = createQuery(['list', 'unpublished'], () => fetchListWithUnpublished($token))
+    $: posts = createQuery(['list', 'unpublished'], () => fetchListWithUnpublished($token), {
+        retry: AUTHENTICATED_RETRY
+    })
 </script>
 
 {#if $posts.error != null || $self.error != null}
@@ -59,7 +66,9 @@
                             {#if $self.isLoading}
                                 Loading
                             {:else}
-                                {$self.data.name}
+                                {#if $self.isSuccess && $self.data != null}
+                                    {$self.data.name}
+                                {/if}
                             {/if}
                         </h3>
                     </div>

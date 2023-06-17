@@ -16,6 +16,9 @@ func From(c *context.Context) (*User, error) {
 		return nil, nil
 	}
 	token, _ = strings.CutPrefix(token, "Bearer ")
+	if token == "" {
+		return nil, nil
+	}
 	var user *User
 	claims, err := jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
 		subject, err := token.Claims.GetSubject()

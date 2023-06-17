@@ -3,7 +3,6 @@
     import removeMarkdown from 'remove-markdown'
     import {createQuery} from "@tanstack/svelte-query";
     import {fetchPost,} from "../../../lib/requests/posts";
-    import {NOT_FOUND} from "../../../lib/requests/errors/generic";
     import {Icon} from "@steeze-ui/svelte-icon";
     import {ChevronLeft, ExclamationTriangle} from "@steeze-ui/radix-icons";
     import HeadlineSkeleton from "$lib/components/HeadlineSkeleton.svelte";
@@ -13,6 +12,7 @@
     import type {Post} from "../../../lib/types/post";
     import Alert from "$lib/components/alerts/Alert.svelte";
     import {token} from "../../../lib/stash";
+    import {AUTHENTICATED_RETRY} from "../../../lib/requests/retries/retries";
 
     const DISALLOW_SELECT_CODEBLOCKS =
         import.meta.env.VITE_DISALLOW_SELECT_CODEBLOCKS == null
@@ -21,12 +21,7 @@
 
     let key = $page.params.key
     let post = createQuery(['post', key], () => fetchPost(key, $token), {
-        retry: (failureCount, error) => {
-            if (error === NOT_FOUND) {
-                return false
-            }
-            return failureCount < 5;
-        },
+        retry: AUTHENTICATED_RETRY,
         refetchInterval: (data: Post) => (!data?.published ?? true) ? 2500 : false
     })
 
