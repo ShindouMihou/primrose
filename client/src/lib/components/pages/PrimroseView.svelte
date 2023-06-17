@@ -34,9 +34,9 @@
             <p class="playfair uppercase font-bold text-lg">{import.meta.env.VITE_APP_NAME}</p>
         </div>
     </div>
-    <div class="w-full h-screen bg-gray-400 relative overflow-hidden group-hover:backdrop-blur-xl" id="hero">
+    <div class="w-full h-screen bg-gray-400 relative overflow-hidden" id="hero">
         <div class="absolute h-screen w-full bg-cover bg-center {color} bg-no-repeat"></div>
-        <div class="relative drop-shadow shadow-white backdrop-blur group-hover:backdrop-blur-2xl transition ease-in-out duration-300 bg-black bg-opacity-30 h-full overflow-hidden">
+        <div class="relative drop-shadow shadow-white transition ease-in-out duration-300 bg-black bg-opacity-30 h-full overflow-hidden">
             <div class="relative md:my-64">
                 <h2 class="leading-none text-[32rem] font-bold break-all text-justify select-none">{headline}</h2>
             </div>
