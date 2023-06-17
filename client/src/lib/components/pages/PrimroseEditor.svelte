@@ -25,7 +25,11 @@
     export let key: string | null;
 
     const self = createQuery(['self'], () => fetchSelf($token), {
-        retry: AUTHENTICATED_RETRY
+        retry: AUTHENTICATED_RETRY,
+        refetchInterval: false,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        refetchOnReconnect: false
     })
     onMount(() => {
         function logout() {
@@ -89,7 +93,11 @@
     let published = false
 
     const post = createQuery(['post', key], () => fetchPostForEditor(key, $token), {
-        retry: AUTHENTICATED_RETRY
+        retry: AUTHENTICATED_RETRY,
+        refetchInterval: false,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        refetchOnReconnect: false
     })
 
     const mutator = createMutation(['post', key], (newPost: Post) => savePost($token, newPost), {
