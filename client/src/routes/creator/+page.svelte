@@ -91,7 +91,7 @@
                     <div class="flex flex-col gap-8 py-4 md:pl-4">
                         {#if !$posts.isLoading}
                             {#each $posts.data.data as post, i}
-                                <a href={"/editor/" + post.id } class="hover:scale-105 transition ease-in-out duration-700 flex flex-row gap-4 items-center w-full">
+                                <a href={"/editor/" + post.id } class="hover:scale-105 transition ease-in-out duration-300 flex flex-row gap-4 items-center w-full">
                                     <div class="w-7 h-7 text-center text-blue-200 playfair">
                                         <p>{i + 1}</p>
                                     </div>
