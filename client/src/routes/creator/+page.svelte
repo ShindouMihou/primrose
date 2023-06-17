@@ -33,9 +33,7 @@
         }
     })
 
-    $: posts = createQuery(['list', 'unpublished'], () => fetchListWithUnpublished($token), {
-        enabled: ($self.isSuccess && $self.data != null)
-    })
+    $: posts = createQuery(['list', 'unpublished'], () => fetchListWithUnpublished($token))
 </script>
 
 {#if $posts.error != null || $self.error != null}
