@@ -1,6 +1,7 @@
 package users
 
 import (
+	"errors"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/kataras/iris/v12/context"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -37,6 +38,9 @@ func From(c *context.Context) (*User, error) {
 	})
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
+			return nil, nil
+		}
+		if errors.Is(err, jwt.ErrTokenExpired) || errors.Is(err, jwt.ErrTokenNotValidYet) || errors.Is(err, jwt.ErrTokenMalformed) || errors.Is(err, jwt.ErrTokenSignatureInvalid) {
 			return nil, nil
 		}
 		return nil, err
