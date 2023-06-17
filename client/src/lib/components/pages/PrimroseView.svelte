@@ -19,10 +19,8 @@
             }
             if (window.scrollY > (target.offsetTop + target.offsetHeight)) {
                 document.getElementById("header")?.classList.add("backdrop-blur")
-                document.getElementById("header")?.classList.remove("hidden", "md:block")
             } else {
                 document.getElementById("header")?.classList.remove("backdrop-blur")
-                document.getElementById("header")?.classList.add("hidden", "md:block")
             }
         })
     })
