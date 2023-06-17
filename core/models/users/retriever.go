@@ -35,14 +35,14 @@ func From(c *context.Context) (*User, error) {
 		}
 		return []byte(key + "/?=" + env.EnsureEnv("SIGNING_KEY")), nil
 	})
-	if !claims.Valid {
-		return nil, nil
-	}
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, nil
 		}
 		return nil, err
+	}
+	if !claims.Valid {
+		return nil, nil
 	}
 	if user.Flags == nil {
 		user.Flags = []string{}
