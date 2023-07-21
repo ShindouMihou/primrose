@@ -10,5 +10,5 @@ export const load = (async ({ params, request }) => {
             preload: { post }
         }
     }
-    return {};
+    return { post: null };
 }) satisfies PageServerLoad;

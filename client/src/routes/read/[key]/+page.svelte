@@ -63,12 +63,13 @@
 <svelte:head>
     {#if data.preload != null}
         {#if data.preload.post != null}
-        <title>{data.preload.post?.title ?? import.meta.env.VITE_APP_NAME}</title>
-        <meta name="title" content={data.preload.post?.title ?? import.meta.env.VITE_APP_NAME} />
-        <meta name="image" content={data.preload.post?.image} />
-        <meta name="og:image" content={data.preload.post?.image} />
-        <meta name="description" content={removeMarkdown(data.preload.post?.content ?? "")} />
-        <meta name="article:published_time" content={data.preload.post?.created_at ?? ""} />
+            <title>{data.preload.post?.title ?? import.meta.env.VITE_APP_NAME}</title>
+            <meta name="title" content={data.preload.post?.title ?? import.meta.env.VITE_APP_NAME} />
+            <meta name="image" content={data.preload.post?.image} />
+            <meta name="og:image" content={data.preload.post?.image} />
+            <meta name="description" content={removeMarkdown(data.preload.post?.content ?? "")} />
+            <meta name="article:published_time" content={data.preload.post?.created_at ?? ""} />
+            <meta name="preloaded" content="true"/>
         {/if}
     {:else}
         {#if !$post.isLoading && $post.error == null}
