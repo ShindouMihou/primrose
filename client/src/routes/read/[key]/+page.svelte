@@ -13,6 +13,9 @@
     import Alert from "$lib/components/alerts/Alert.svelte";
     import {token} from "../../../lib/stash";
     import {AUTHENTICATED_RETRY} from "../../../lib/requests/retries/retries";
+	import type { PageData } from "./$types";
+
+    export let data: PageData;
 
     const DISALLOW_SELECT_CODEBLOCKS =
         import.meta.env.VITE_DISALLOW_SELECT_CODEBLOCKS == null
@@ -24,6 +27,7 @@
         retry: AUTHENTICATED_RETRY,
         refetchInterval: (data: Post) => (!data?.published ?? true) ? 2500 : false
     })
+
 
     $: $post.error ? (() => console.log($post.error))() : null;
 
@@ -57,13 +61,24 @@
 </script>
 
 <svelte:head>
-    {#if !$post.isLoading && $post.error == null}
+    {#if data.preload != null}
+        {#if data.preload.post != null}
+        <title>{data.preload.post?.title ?? import.meta.env.VITE_APP_NAME}</title>
+        <meta name="title" content={data.preload.post?.title ?? import.meta.env.VITE_APP_NAME} />
+        <meta name="image" content={data.preload.post?.image} />
+        <meta name="og:image" content={data.preload.post?.image} />
+        <meta name="description" content={removeMarkdown(data.preload.post?.content ?? "")} />
+        <meta name="article:published_time" content={data.preload.post?.created_at ?? ""} />
+        {/if}
+    {:else}
+        {#if !$post.isLoading && $post.error == null}
         <title>{$post.data?.title ?? import.meta.env.VITE_APP_NAME}</title>
         <meta name="title" content={$post.data?.title ?? import.meta.env.VITE_APP_NAME} />
         <meta name="image" content={$post.data?.image} />
         <meta name="og:image" content={$post.data?.image} />
-        <meta name="description" content={removeMarkdown($post.data.content)} />
+        <meta name="description" content={removeMarkdown($post.data?.content ?? "")} />
         <meta name="article:published_time" content={$post.data?.created_at} />
+        {/if}
     {/if}
     <meta name="og:type" content="article" />
     <meta name="article:author" content={import.meta.env.VITE_DISPLAY_NAME} />
@@ -85,7 +100,7 @@
 </svelte:head>
 
 {#if !$post.isLoading}
-    {#if $post.error == null}
+    {#if $post.error == null && $post.data != null}
         <div class="relative">
             <div class="fixed transition ease-in-out duration-400 w-screen z-30" id="header">
                 <a href="/" class="flex flex-row items-center px-6 py-4 hover:opacity-80 duration-400 transition ease-in-out">
