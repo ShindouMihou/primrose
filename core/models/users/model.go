@@ -6,12 +6,12 @@ import (
 )
 
 type User struct {
-	models.Model
-	Name     string `json:"name" bson:"name"`
-	Email    string `json:"-" bson:"email"`
-	Password string `json:"-" bson:"password"`
-	Token    string `json:"-" bson:"token"`
-	Flags    []Flag `json:"flags" bson:"flags"`
+	models.Model `bson:",inline"`
+	Name         string `json:"name" bson:"name"`
+	Email        string `json:"-" bson:"email"`
+	Password     string `json:"-" bson:"password"`
+	Token        string `json:"-" bson:"token"`
+	Flags        []Flag `json:"flags" bson:"flags"`
 }
 
 type Flag = string

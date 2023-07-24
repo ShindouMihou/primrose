@@ -5,6 +5,7 @@ import (
 	"github.com/dchest/uniuri"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"primrose/models/comments"
 	"primrose/utils"
 	"regexp"
 	"strings"
@@ -72,6 +73,9 @@ func (post *Post) Save() error {
 func (post *Post) Delete() error {
 	if post.Id == "" {
 		return PostDoesNotExistErr
+	}
+	if _, err := comments.GetCollection().DeleteMany(context.TODO(), bson.M{"post": post.Id}); err != nil {
+		return err
 	}
 	if _, err := GetCollection().DeleteOne(context.TODO(), bson.M{"_id": post.Id}); err != nil {
 		return err

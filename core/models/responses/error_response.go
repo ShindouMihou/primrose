@@ -4,6 +4,8 @@ import (
 	"github.com/kataras/golog"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/context"
+	"primrose/models/comments"
+	"strconv"
 	"strings"
 )
 
@@ -30,5 +32,9 @@ var VagueError = ErrorResponse{Code: iris.StatusBadRequest, Error: "An error occ
 var EmailAlreadyUsed = ErrorResponse{Code: iris.StatusBadRequest, Error: "Another user is already using the provided e-mail address."}
 var InvalidEmailPassword = ErrorResponse{Code: iris.StatusBadRequest, Error: "Invalid email or password."}
 var AuthenticationRequired = ErrorResponse{Code: iris.StatusForbidden, Error: "You cannot perform this task, or access this resource."}
+var SessionExpired = ErrorResponse{Code: iris.StatusForbidden, Error: "Your current session has expired, please login again."}
 var Unauthorized = ErrorResponse{Code: iris.StatusUnauthorized, Error: "You do not have the privilege to perform this task or access this resource."}
 var NotFound = ErrorResponse{Code: iris.StatusNotFound, Error: "We cannot find any resource that matches."}
+
+var InvalidReplyToComment = ErrorResponse{Code: iris.StatusBadRequest, Error: "Cannot reply to unknown comment."}
+var ExceededMaximumCommentLength = ErrorResponse{Code: iris.StatusBadRequest, Error: "A comment's content cannot exceed " + strconv.FormatInt(comments.MaximumContentLength, 10) + " characters."}

@@ -1,6 +1,7 @@
 package middlewares
 
 import (
+	"errors"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/kataras/iris/v12/context"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -39,8 +40,15 @@ func Secured(c *context.Context) (*users.User, bool) {
 		return []byte(key + "/?=" + env.EnsureEnv("SIGNING_KEY")), nil
 	})
 	if err != nil {
-		if err == mongo.ErrNoDocuments {
+		if err == mongo.ErrNoDocuments ||
+			errors.Is(err, jwt.ErrInvalidKey) ||
+			errors.Is(err, jwt.ErrSignatureInvalid) ||
+			errors.Is(err, jwt.ErrTokenMalformed) {
 			responses.AuthenticationRequired.Reply(c)
+			return nil, false
+		}
+		if errors.Is(err, jwt.ErrTokenExpired) {
+			responses.SessionExpired.Reply(c)
 			return nil, false
 		}
 		responses.Handle(c, err)
