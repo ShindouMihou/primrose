@@ -58,7 +58,7 @@
 </script>
 
 <div class="w-full flex flex-col gap-2 p-4 bg-gray-600 bg-opacity-10 group" id="comment-{data.id}">
-    <div class="pb-2 flex flex-row justify-between items-center">
+    <div class="pb-2 flex flex-col gap-4 md:gap-0 md:flex-row md:justify-between md:items-center">
         <Author bind:comment={data}/>
         <Controls bind:show={showControls}>
             {#if !editing}

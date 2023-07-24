@@ -3,7 +3,7 @@
 </script>
 
 {#if show}
-    <div class="p-2 items-center bg-gray-700 shadow rounded flex flex-row gap-4 hidden group-hover:flex">
+    <div class="p-2 items-center bg-gray-700 shadow rounded flex flex-row justify-between md:justify-normal gap-4 hidden group-hover:flex">
         <slot/>
     </div>
 {/if}
