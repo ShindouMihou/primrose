@@ -1,20 +1,14 @@
 <script lang="ts">
     import type {Comment} from "../types/comment";
     import {toHTML} from "../renderer/markdown";
-    import {createEventDispatcher, onMount} from "svelte";
-    import dayjs from "dayjs";
-    import relativeTime from 'dayjs/plugin/relativeTime'
+    import {createEventDispatcher} from "svelte";
     import {Icon} from "@steeze-ui/svelte-icon";
     import {
-        ChatBubble, Check, ChevronUp, Cross2,
+        ChatBubble, Check, Cross2,
         EyeClosed,
         EyeOpen,
-        PaperPlane,
         Pencil1,
-        Quote,
-        Reset,
         Trash,
-        TriangleRight, Upload
     } from "@steeze-ui/radix-icons";
     import autosize from 'autosize'
     import ControlButton from "$lib/components/comments/ControlButton.svelte";
