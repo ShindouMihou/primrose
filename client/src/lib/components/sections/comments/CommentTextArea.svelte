@@ -68,7 +68,7 @@
     </div>
 {/if}
 {#if self != null}
-    <div class="flex flex-row justify-between bg-neutral-900 bg-opacity-80 w-full p-1 py-2 pl-1 px-5 h-fit items-center flex-shrink-0">
+    <div class="flex flex-col gap-4 md:gap-0 md:flex-row md:justify-between bg-neutral-900 bg-opacity-80 w-full p-1 py-2 pt-4 md:pt-2 pl-1 px-5 h-fit md:items-center flex-shrink-0">
         <div class="w-10 ml-2 rounded-full object-cover border border-orange-400">
             <img src={avatar} alt="Yourself"/>
         </div>
@@ -78,7 +78,7 @@
                   class="ml-2 playfair bg-transparent w-full max-h-96 p-1 outline-none resize-none"
                   bind:value={contents}
         ></textarea>
-        <button class="p-2 bg-black text-white flex flex-row gap-1 items-center hover:opacity-60 duration-300" on:click={send} data-tippy-content="Send Comment">
+        <button class="p-2 w-full md:w-fit bg-black text-white flex flex-row gap-1 items-center hover:opacity-60 duration-300" on:click={send} data-tippy-content="Send Comment">
             <Icon src={TriangleRight} class="h-6 w-6 flex-shrink-0"></Icon>
             <p>Send</p>
         </button>
