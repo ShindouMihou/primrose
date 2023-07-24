@@ -1,11 +1,13 @@
 <script lang="ts">
-    import dayjs from "dayjs";
     import type {Comment} from "../../types/comment";
-    import relativeTime from "dayjs/plugin/relativeTime";
+    import TimeAgo from 'javascript-time-ago'
+    import en from 'javascript-time-ago/locale/en'
 
-    dayjs.extend(relativeTime)
+    TimeAgo.setDefaultLocale(en)
+    TimeAgo.addLocale(en)
 
     export let comment: Comment
+    const timeago = new TimeAgo(['en-US'])
 
     const avatar = createAvatar()
 
@@ -20,6 +22,6 @@
     </div>
     <div class="flex flex-col">
         <h2 class="text-lg font-bold">{comment.author.name}</h2>
-        <p class="text-sm text-gray-200 font-light">{dayjs(comment.created_at).fromNow()}</p>
+        <p class="text-sm text-gray-200 font-light">{timeago.format(new Date(comment.created_at))}</p>
     </div>
 </div>
