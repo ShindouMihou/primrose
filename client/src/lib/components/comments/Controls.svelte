@@ -1,0 +1,9 @@
+<script lang="ts">
+    export let show: boolean
+</script>
+
+{#if show}
+    <div class="p-2 items-center bg-gray-700 shadow rounded flex flex-row gap-4 hidden group-hover:flex">
+        <slot/>
+    </div>
+{/if}

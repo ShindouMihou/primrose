@@ -17,26 +17,25 @@ const (
 
 type Comment struct {
 	models.Model `bson:",inline"`
-	Content      string    `json:"content" bson:"content" validate:"required"`
-	Post         string    `json:"post" bson:"post"`
-	CreatedAt    time.Time `json:"created_at" bson:"created_at"`
-	UpdatedAt    time.Time `json:"updated_at" bson:"updated_at"`
+	Content      string              `json:"content" bson:"content" validate:"required"`
+	Post         string              `json:"post" bson:"post"`
+	ReplyTo      *primitive.ObjectID `json:"reply_to" bson:"reply_to"`
+	CreatedAt    time.Time           `json:"created_at" bson:"created_at"`
+	UpdatedAt    time.Time           `json:"updated_at" bson:"updated_at"`
 }
 
 type UnjoinedComment struct {
 	Comment `bson:",inline"`
-	Author  primitive.ObjectID  `json:"author" bson:"author"`
-	ReplyTo *primitive.ObjectID `json:"reply_to" bson:"reply_to"`
+	Author  primitive.ObjectID `json:"author" bson:"author"`
 }
 
 type JoinedComment struct {
 	Comment `bson:",inline"`
-	Author  users.User          `json:"author" bson:"author"`
-	ReplyTo *primitive.ObjectID `json:"reply_to" bson:"reply_to"`
+	Author  users.User `json:"author" bson:"author"`
 }
 
 func (joinedComment *JoinedComment) Unjoin() *UnjoinedComment {
-	return &UnjoinedComment{Comment: joinedComment.Comment, Author: joinedComment.Author.ObjectId(), ReplyTo: joinedComment.ReplyTo}
+	return &UnjoinedComment{Comment: joinedComment.Comment, Author: joinedComment.Author.ObjectId()}
 }
 
 func (comment *Comment) Delete() error {

@@ -1,5 +1,6 @@
 import {type Writable, writable} from "svelte/store";
 import {browser} from "$app/environment";
+import type {User} from "./types/user";
 
 export const token: Writable<string> = writable(stored('primrose.acc', ''))
 

@@ -14,6 +14,8 @@
     import {token} from "../../../lib/stash";
     import {AUTHENTICATED_RETRY} from "../../../lib/requests/retries/retries";
 	import type { PageData } from "./$types";
+    import Comments from "$lib/components/sections/Comments.svelte";
+    import {fetchSelf} from "../../../lib/requests/user";
 
     export let data: PageData;
 
@@ -27,7 +29,6 @@
         retry: AUTHENTICATED_RETRY,
         refetchInterval: (data: Post) => (!data?.published ?? true) ? 2500 : false
     })
-
 
     $: $post.error ? (() => console.log($post.error))() : null;
 
@@ -47,6 +48,14 @@
                 document.getElementById("header")?.classList.remove("backdrop-blur")
             }
         })
+
+        if (window.location.hash !== "") {
+            setTimeout(() => {
+                const element = document.querySelector(window.location.hash)
+                window.lenis.scrollTo(element)
+                console.info('scrolled to', element)
+            }, 600)
+        }
     })() : null;
 
     function html(content: string) {
@@ -132,6 +141,7 @@
                 </div>
             </div>
         </div>
+        <Comments id={$post.data.id} slug={$post.data.slug}/>
         <Footer/>
     {:else}
         <ErrorView err={$post.error}/>

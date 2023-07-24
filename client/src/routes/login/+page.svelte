@@ -6,6 +6,7 @@
     import {createQuery} from "@tanstack/svelte-query";
     import {UNAUTHENTICATED} from "../../lib/requests/errors/generic";
     import PrimroseView from "$lib/components/pages/PrimroseView.svelte";
+    import {page} from "$app/stores";
 
     const self = createQuery(['self', $token], () => fetchSelf($token))
     $: if ($self.error === UNAUTHENTICATED) {
@@ -27,16 +28,26 @@
         error = null
     }
 
+    let callback: string = $page.url.searchParams.get('callback')
+
     async function login() {
         if (loading) {
             return
+        }
+
+        if (callback != null) {
+            callback = callback.replace( /^[a-zA-Z]{3,5}\:\/{2}[a-zA-Z0-9_.:-]+\//, '');
+        }
+
+        if (!callback.startsWith('/')) {
+            callback = "/" + callback
         }
 
         loading = true
         return signIn(email, password)
             .then(value => {
                 token.set(value)
-                setTimeout(() => window.location.replace('/'), 512)
+                setTimeout(() => window.location.replace(callback != null ? callback : '/'), 512)
             })
             .catch(reason => { error = reason.message; loading = false })
     }
@@ -66,7 +77,7 @@
                 <Icon src={ChevronRight} size="16"/>
                 <p>Login</p>
             </button>
-            <a href="/signup" class="hover:opacity-60 animated duration-700">
+            <a href="/signup{callback !== null ? '?callback='+encodeURIComponent(callback) : ''}" class="hover:opacity-60 animated duration-700">
                 <p class="text-sm font-light">or <span class="text-blue-300">create an account here</span>.</p>
             </a>
         </div>

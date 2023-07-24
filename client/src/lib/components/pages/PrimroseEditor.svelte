@@ -231,7 +231,7 @@
                                 bind:value={content}
                                 placeholder="The beautiful moon is charming always."
                                 id="text"
-                                disabled={lock}/>
+                                disabled={lock}></textarea>
                 </div>
             </HideableSection>
         </PrimroseView>

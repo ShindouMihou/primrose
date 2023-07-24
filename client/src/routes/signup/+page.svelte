@@ -6,6 +6,7 @@
     import {createQuery} from "@tanstack/svelte-query";
     import {UNAUTHENTICATED} from "../../lib/requests/errors/generic";
     import PrimroseView from "$lib/components/pages/PrimroseView.svelte";
+    import {page} from "$app/stores";
 
     const self = createQuery(['self', $token], () => fetchSelf($token))
     $: if ($self.error === UNAUTHENTICATED) {
@@ -22,6 +23,9 @@
 
     let error: string | null = null
     let loading = false
+
+    let callback: string = $page.url.searchParams.get('callback')
+
     $: loadingClass = loading ? 'animate-pulse animated duration-700' : ''
 
     $: if (email || name || password) {
@@ -35,7 +39,7 @@
 
         loading = true
         return signUp(name, email, password)
-            .then(() => setTimeout(() => window.location.replace('/login'), 512))
+            .then(() => setTimeout(() => window.location.replace('/login' + (callback == null ? '' : '?callback='+encodeURI(callback))), 512))
             .catch(reason => { error = reason.message; loading = false })
     }
 </script>
@@ -68,7 +72,7 @@
                 <Icon src={ChevronRight} size="16"/>
                 <p>Sign Up</p>
             </button>
-            <a href="/login" class="hover:opacity-60 animated duration-700">
+            <a href="/login{callback !== null ? '?callback='+encodeURIComponent(callback) : ''}" class="hover:opacity-60 animated duration-700">
                 <p class="text-sm font-light">or <span class="text-blue-300">login into an existing account</span>.</p>
             </a>
         </div>

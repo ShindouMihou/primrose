@@ -1,6 +1,7 @@
 import {NOT_FOUND, UNAUTHENTICATED} from "../errors/generic";
 import {token} from "../../stash";
 
+// @ts-ignore
 export const  AUTHENTICATED_RETRY = (failureCount, error) => {
     if (error === UNAUTHENTICATED) {
         token.set('')

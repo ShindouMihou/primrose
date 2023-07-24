@@ -24,6 +24,7 @@ var _ = clients.Iris.Attach(func(app *iris.Application) {
 		comments.Patch("/edit/{comment}", CommentRoutes.Edit)
 		comments.Delete("/delete/{comment}", CommentRoutes.Del)
 		comments.Get("/view/{comment}", CommentRoutes.View)
+		comments.Post("/many", CommentRoutes.Many)
 	}
 })
 
@@ -81,6 +82,7 @@ var CommentRoutes = struct {
 	View inc.Handler
 	List inc.Handler
 	Del  inc.Handler
+	Many inc.Handler
 }{
 	Save: func(ctx *inc.Context) {
 		user, ok := middlewares.Secured(ctx)
@@ -123,8 +125,9 @@ var CommentRoutes = struct {
 		comment.UpdatedAt = time.Now()
 		comment.CreatedAt = time.Now()
 		comment.Post = post.Id
+		comment.ReplyTo = replyTo
 
-		unjoined := comments.UnjoinedComment{Comment: *comment, ReplyTo: replyTo, Author: user.ObjectId()}
+		unjoined := comments.UnjoinedComment{Comment: *comment, Author: user.ObjectId()}
 		if err := unjoined.Save(); err != nil {
 			if err == comments.CannotReplyToUnknownCommentErr {
 				responses.InvalidReplyToComment.Reply(ctx)
@@ -214,11 +217,37 @@ var CommentRoutes = struct {
 			}
 			after = &id
 		}
-		limit := ctx.URLParamInt32Default("limit", 100)
-		if limit > 100 {
-			limit = 100
+		limit := ctx.URLParamInt32Default("limit", 10)
+		if limit > 10 {
+			limit = 10
 		}
 		comments, err := comments.List(uint8(limit), postId, after)
+		if err != nil {
+			responses.Handle(ctx, err)
+			return
+		}
+		responses.Reply(ctx, responses.Arrayed{Data: comments})
+	},
+	Many: func(ctx *inc.Context) {
+		type IdArray struct {
+			Ids []string `json:"ids"`
+		}
+		ok, request := requests.Read(ctx, IdArray{})
+		if !ok {
+			return
+		}
+		if len(request.Ids) > 20 {
+			request.Ids = request.Ids[20:]
+		}
+		ids := make([]primitive.ObjectID, len(request.Ids))
+		for _, id := range request.Ids {
+			oid, err := primitive.ObjectIDFromHex(id)
+			if err != nil {
+				continue
+			}
+			ids = append(ids, oid)
+		}
+		comments, err := comments.Many(ids)
 		if err != nil {
 			responses.Handle(ctx, err)
 			return

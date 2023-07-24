@@ -24,21 +24,14 @@ var (
 
 func List(limit uint8, post string, after *primitive.ObjectID) ([]JoinedComment, error) {
 	var comments = make([]JoinedComment, limit)
-	var query bson.M
+	query := bson.M{"post": post}
 
 	var apply = func(query bson.M) error {
 		if after != nil {
-			post, err := WithId(*after)
-			if err != nil {
-				return err
-			}
-			if post != nil {
-				query["created_at"] = bson.M{"$gt": post}
-			}
+			query["_id"] = bson.M{"$gt": after}
 		}
 		return nil
 	}
-	query = bson.M{"post": post}
 
 	if err := apply(query); err != nil {
 		return nil, err
@@ -50,6 +43,25 @@ func List(limit uint8, post string, after *primitive.ObjectID) ([]JoinedComment,
 			{"created_at", 1}},
 		}},
 		{{"$limit", limit}},
+		lookupPipeline,
+		flattenPipeline,
+	})
+	if err != nil {
+		return nil, err
+	}
+	if err = res.All(context.TODO(), &comments); err != nil {
+		return nil, err
+	}
+	return comments, nil
+}
+
+func Many(ids []primitive.ObjectID) ([]JoinedComment, error) {
+	var comments = make([]JoinedComment, len(ids))
+	res, err := GetCollection().Aggregate(context.TODO(), mongo.Pipeline{
+		{{"$match", bson.M{"_id": bson.M{"$in": ids}}}},
+		{{"$sort", bson.D{
+			{"created_at", 1}},
+		}},
 		lookupPipeline,
 		flattenPipeline,
 	})
