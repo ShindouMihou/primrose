@@ -1,11 +1,12 @@
 package users
 
 import (
+	"primrose/models"
 	"primrose/utils"
 )
 
 type User struct {
-	Id       string `json:"id,omitempty" bson:"_id,omitempty"`
+	models.Model
 	Name     string `json:"name" bson:"name"`
 	Email    string `json:"-" bson:"email"`
 	Password string `json:"-" bson:"password"`
