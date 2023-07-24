@@ -147,7 +147,12 @@
                 {#each $query.data.pages as { data }}
                     {#each data as comment}
                         <div class="my-3">
-                            <CommentElement data={comment} on:reply={select} on:edit={edit} on:delete={del} showAuthorControls={$self.data != null && comment.author.id === $self.data.id}/>
+                            <CommentElement data={comment}
+                                            on:reply={select}
+                                            on:edit={edit}
+                                            on:delete={del}
+                                            authenticated={$self.data != null}
+                                            showAuthorControls={$self.data != null && comment.author.id === $self.data.id}/>
                         </div>
                     {/each}
                 {/each}

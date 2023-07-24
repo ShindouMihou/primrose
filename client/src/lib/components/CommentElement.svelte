@@ -7,7 +7,7 @@
         ChatBubble, Check, Cross2,
         EyeClosed,
         EyeOpen,
-        Pencil1,
+        Pencil1, Share1,
         Trash,
     } from "@steeze-ui/radix-icons";
     import autosize from 'autosize'
@@ -16,6 +16,7 @@
     import Author from "$lib/components/comments/Author.svelte";
 
     export let data: Comment
+    export let authenticated: boolean = false
     export let showControls: boolean = true
     export let showAuthorControls: boolean = false
 
@@ -49,14 +50,24 @@
             setTimeout(() => autosize(document.querySelector('#edit-bar')!!), 500)
         }
     }
+
+    function shareUrl(): string {
+        window.location.hash = "#comment-" + data.id
+        return window.location.toString()
+    }
 </script>
 
-<div class="w-full flex flex-col gap-2 p-4 bg-gray-600 bg-opacity-10 group">
+<div class="w-full flex flex-col gap-2 p-4 bg-gray-600 bg-opacity-10 group" id="comment-{data.id}">
     <div class="pb-2 flex flex-row justify-between items-center">
         <Author bind:comment={data}/>
         <Controls bind:show={showControls}>
             {#if !editing}
-                <ControlButton icon={ChatBubble} on:click={() => dispatcher('reply', data)}/>
+                {#if navigator.canShare != null && navigator.canShare({ url: shareUrl() })}
+                    <ControlButton icon={Share1} on:click={() => navigator.share({ url: shareUrl() })}/>
+                {/if}
+                {#if authenticated}
+                    <ControlButton icon={ChatBubble} on:click={() => dispatcher('reply', data)}/>
+                {/if}
                 {#if showAuthorControls}
                     <ControlButton icon={Trash} on:click={() => dispatcher('delete', data)}/>
                     <ControlButton icon={Pencil1} on:click={onClickEdit}/>
