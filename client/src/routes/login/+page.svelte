@@ -37,10 +37,10 @@
 
         if (callback != null) {
             callback = callback.replace( /^[a-zA-Z]{3,5}\:\/{2}[a-zA-Z0-9_.:-]+\//, '');
-        }
 
-        if (!callback.startsWith('/')) {
-            callback = "/" + callback
+            if (!callback.startsWith('/')) {
+                callback = "/" + callback
+            }
         }
 
         loading = true
