@@ -37,6 +37,14 @@
             return
         }
 
+        if (callback != null) {
+            callback = callback.replace( /^[a-zA-Z]{3,5}\:\/{2}[a-zA-Z0-9_.:-]+\//, '');
+
+            if (!callback.startsWith('/')) {
+                callback = "/" + callback
+            }
+        }
+
         loading = true
         return signUp(name, email, password)
             .then(() => setTimeout(() => window.location.replace('/login' + (callback == null ? '' : '?callback='+encodeURI(callback))), 512))
