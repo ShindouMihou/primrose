@@ -20,7 +20,7 @@
     />
     <PostPadding>
         <div class="flex flex-col gap-2">
-            <div class="w-80 bg-gray-400 p-2 rounded-md my-2 animate-pulse"></div>
+            <div class="w-full lg:w-80 bg-gray-400 p-2 rounded-md my-2 animate-pulse"></div>
             <div class="bg-gray-500 p-1 rounded-md animate-pulse"></div>
             <div class="bg-gray-500 p-1 rounded-md animate-pulse"></div>
             <div class="w-[95%] bg-gray-500 p-1 rounded-md animate-pulse"></div>

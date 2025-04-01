@@ -30,7 +30,7 @@
 </svelte:head>
 
 <QueryClientProvider client={queryClient}>
-    <div class="bg-background text-white flex flex-col min-h-screen inter p-12 lg:p-24 lg:px-48 xl:px-72" lenis>
+    <div class="bg-background text-white flex flex-col min-h-screen inter p-4 lg:p-24 lg:px-48 xl:px-72" lenis>
         <div class="max-w-3xl w-full m-auto">
             <slot />
         </div>
