@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {Comment} from "../../types/comment";
+    import type {Comment} from "$lib/types/comment";
     import TimeAgo from 'javascript-time-ago'
     import en from 'javascript-time-ago/locale/en'
 
@@ -13,7 +13,7 @@
 
     function createAvatar() {
         let name = comment.author instanceof String ? comment.author : comment.author.name
-        return "https://source.boringavatars.com/beam/120/" + encodeURI(name) + "?colors=264653,2a9d8f,e9c46a,f4a261,e76f51"
+        return "https://api.dicebear.com/9.x/bottts-neutral/svg?seed=" + encodeURI(name)
     }
 </script>
 <div class="flex flex-row gap-2 items-center">
