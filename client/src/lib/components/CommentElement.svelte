@@ -57,7 +57,7 @@
     }
 </script>
 
-<div class="w-full flex flex-col gap-2 p-4 bg-gray-600 bg-opacity-10 group" id="comment-{data.id}">
+<div class="w-full flex flex-col gap-2 p-4 border rounded border-gray-700 group" id="comment-{data.id}">
     <div class="pb-2 flex flex-col gap-4 md:gap-0 md:flex-row md:justify-between md:items-center">
         <Author bind:comment={data}/>
         <Controls bind:show={showControls}>
@@ -91,14 +91,14 @@
             <svelte:self data={data.resolved_parent} showControls={false}/>
         </div>
     {/if}
-    <div class="mkdown playfair">
+    <div class="mkdown">
         {#if !editing}
             {@html html(data.content)}
         {:else}
               <textarea id="text-bar"
                         rows="1"
-                        placeholder={"Nothing is going to change my love for you."}
-                        class="playfair bg-transparent w-full outline-none resize-none"
+                        placeholder={"Edit your comment."}
+                        class="bg-transparent w-full outline-none resize-none"
                         bind:value={edit}
               ></textarea>
         {/if}

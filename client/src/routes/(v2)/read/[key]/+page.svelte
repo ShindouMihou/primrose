@@ -2,20 +2,20 @@
     import {page} from "$app/stores";
     import removeMarkdown from 'remove-markdown'
     import {createQuery} from "@tanstack/svelte-query";
-    import {fetchPost,} from "../../../lib/requests/posts";
+    import {fetchPost,} from "$lib/requests/posts";
     import {Icon} from "@steeze-ui/svelte-icon";
-    import {ChevronLeft, ExclamationTriangle} from "@steeze-ui/radix-icons";
-    import HeadlineSkeleton from "$lib/components/HeadlineSkeleton.svelte";
+    import {Bookmark, ExclamationTriangle} from "@steeze-ui/radix-icons";
     import {toHTML} from "$lib/renderer/markdown.js";
-    import Footer from "$lib/components/Footer.svelte";
-    import ErrorView from "$lib/components/pages/ErrorView.svelte";
-    import type {Post} from "../../../lib/types/post";
+    import type {Post} from "$lib/types/post";
     import Alert from "$lib/components/alerts/Alert.svelte";
-    import {token} from "../../../lib/stash";
-    import {AUTHENTICATED_RETRY} from "../../../lib/requests/retries/retries";
+    import {token} from "$lib/stash";
+    import {AUTHENTICATED_RETRY} from "$lib/requests/retries/retries";
 	import type { PageData } from "./$types";
-    import Comments from "$lib/components/sections/Comments.svelte";
-    import {fetchSelf} from "../../../lib/requests/user";
+    import Comments from "$lib/v2/components/comments/Comments.svelte";
+    import PostPadding from "$lib/v2/components/PostPadding.svelte";
+    import Header from "$lib/v2/components/Header.svelte";
+    import PostSkeleton from "$lib/v2/components/PostSkeleton.svelte";
+    import ErrorPost from "$lib/v2/components/ErrorPost.svelte";
 
     export let data: PageData;
 
@@ -109,43 +109,48 @@
     {/if}
 </svelte:head>
 
-{#if !$post.isLoading}
-    {#if $post.error == null && $post.data != null}
-        <div class="relative">
-            <div class="fixed transition ease-in-out duration-400 w-screen z-30" id="header">
-                <a href="/" class="flex flex-row items-center px-6 py-4 hover:opacity-80 duration-400 transition ease-in-out">
-                    <Icon src={ChevronLeft} size="24"/>
-                    <p class="playfair uppercase font-bold text-lg">{import.meta.env.VITE_APP_NAME}</p>
-                </a>
-            </div>
-            <div class="w-full h-screen bg-gray-400 relative overflow-hidden group-hover:backdrop-blur-xl" id="hero">
-                <div class="absolute h-screen w-full bg-cover bg-center bg-gray-400 bg-no-repeat" style="background-image: url('{$post.data.image}');"></div>
-                <div class="relative drop-shadow shadow-white backdrop-blur group-hover:backdrop-blur-2xl transition ease-in-out duration-300 bg-black bg-opacity-30 h-full overflow-hidden">
-                    <div class="relative md:my-64">
-                        <h2 class="leading-none text-[32rem] 2xl:text-[52rem] font-bold break-all text-justify select-none">{$post.data.title}</h2>
+<Header/>
+<main class={"py-8 pb-16 flex flex-col gap-8 w-full"}>
+    {#if !$post.isLoading}
+        {#if $post.error == null && $post.data != null}
+            <div class="article-container hover:bg-background">
+                <PostPadding>
+                    <div class="flex flex-row justify-between items-center gap-4 text-xs">
+                        <div class="flex flex-row items-center gap-2">
+                            <Icon src={Bookmark} size="18"/>
+                            <p>
+                                READ
+                            </p>
+                        </div>
+                        <p>{$post.data.title}</p>
                     </div>
-                </div>
-            </div>
-            <div class="w-screen bg-black text-white px-12 2xl:px-24 py-8">
-                {#if !$post.data.published}
-                    <div class="py-4">
-                        <Alert icon="{ExclamationTriangle}"
-                               title="You are reading a draft"
-                               description="Primrose will automatically refresh this post once every 2.5 seconds until it is published, if it consumes too much bandwidth,
+                </PostPadding>
+                <img
+                        alt="{$post.data.title}'s Hero Image"
+                        src={$post.data.image}
+                        class="article-image"
+                />
+                <PostPadding>
+                    {#if !$post.data.published}
+                        <div class="py-4">
+                            <Alert icon="{ExclamationTriangle}"
+                                   title="You are reading a draft"
+                                   description="Primrose will automatically refresh this post once every 2.5 seconds until it is published, if it consumes too much bandwidth,
                                 we recommend either editing on WiFi or not opening this page until you are done editing."/>
+                        </div>
+                    {/if}
+                    <div class="flex flex-col gap-2">
+                        <p class="mkdown">
+                            {@html html($post.data.content)}
+                        </p>
                     </div>
-                {/if}
-                <h2 class="p-1 group-hover:bg-white group-hover:bg-opacity-5 w-fit transition ease-in-out duration-300 text-2xl font-bold playfair break-words">{$post.data.title}</h2>
-                <div class="mkdown playfair">
-                    {@html html($post.data.content)}
-                </div>
+                    <Comments id={$post.data.id} slug={$post.data.slug}/>
+                </PostPadding>
             </div>
-        </div>
-        <Comments id={$post.data.id} slug={$post.data.slug}/>
-        <Footer/>
+        {:else}
+            <ErrorPost err={$post.error}/>
+        {/if}
     {:else}
-        <ErrorView err={$post.error}/>
+        <PostSkeleton/>
     {/if}
-{:else}
-    <HeadlineSkeleton/>
-{/if}
+</main>

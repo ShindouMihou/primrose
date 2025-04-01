@@ -1,5 +1,5 @@
 <script>
-    import "../app.css";
+    import "../../app.css";
     import {QueryClient, QueryClientProvider} from "@tanstack/svelte-query";
     import {browser} from "$app/environment";
     import {onMount} from "svelte";
@@ -30,7 +30,9 @@
 </svelte:head>
 
 <QueryClientProvider client={queryClient}>
-    <div class="bg-black text-white flex flex-col min-h-screen inter" lenis>
-        <slot />
+    <div class="bg-background text-white flex flex-col min-h-screen inter p-12 lg:p-24 lg:px-48 xl:px-72" lenis>
+        <div class="max-w-3xl w-full m-auto">
+            <slot />
+        </div>
     </div>
 </QueryClientProvider>
