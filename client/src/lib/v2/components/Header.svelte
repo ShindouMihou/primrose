@@ -1,5 +1,9 @@
+<script>
+    import {APP_ICON} from "$lib/constants.js";
+</script>
+
 <nav class="pb-4">
     <a href="/">
-        <img alt="Logo" src="https://mihou.dev/mihou-logo.png" class="invert dark:invert-0 w-[32px] h-[32px]"/>
+        <img alt="Logo" src="{APP_ICON}" class="invert dark:invert-0 w-[32px] h-[32px]"/>
     </a>
 </nav>
