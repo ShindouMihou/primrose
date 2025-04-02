@@ -1,5 +1,5 @@
 <script>
-    import {APP_ICON} from "$lib/constants.js";
+    import {APP_ICON} from "$lib/constants";
 </script>
 
 <nav class="pb-4">
